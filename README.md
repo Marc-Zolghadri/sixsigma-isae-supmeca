@@ -1,31 +1,19 @@
-# SixSigma in ISAE-Supmeca, by MarcZolghadri
+# SixSigma in ISAE-Supmeca — by MarcZolghadri
 
-Site pédagogique statique (HTML, CSS, JavaScript) destiné à GitHub Pages.
+Site statique adapté à GitHub Pages. Contient le site Six Sigma initial et un espace `jmp/` avec les procédures issues de `Lean Six Sigma avec JMP 002.pptx`.
 
-## Tester en local
+## Publication GitHub Pages
+1. Décompresser l’archive.
+2. Ouvrir le dépôt `Marc-Zolghadri/sixsigma-isae-supmeca`.
+3. Téléverser **tout le contenu** de ce dossier, en respectant l’arborescence, à la racine du dépôt. Les fichiers HTML doivent être à la racine ; les feuilles CSS/JS dans `assets/`, les procédures dans `jmp/`.
+4. Sur GitHub, `Settings → Pages → Deploy from a branch → main → /(root)` puis `Save`.
+5. Pour éviter les difficultés de glisser-déposer de dossiers depuis l’interface web, il est conseillé d’utiliser GitHub Desktop pour synchroniser directement le dossier complet (ou Git dans un terminal).
 
-Ouvrir `index.html` dans un navigateur. Aucune installation nécessaire.
+## Maintenance
+- Chaque fiche JMP est une page HTML autonome dans `jmp/`.
+- Les fichiers partagés `assets/jmp.css` et `assets/jmp.js` assurent présentation et recherche.
+- Modifications du contenu possibles sans dépendances ni compilation.
+- Les menus / interfaces doivent être confirmés pour la version JMP utilisée.
 
-## Publier sur GitHub Pages
-
-1. Créer un dépôt GitHub public, par exemple `sixsigma-isae-supmeca`.
-2. Déposer **le contenu de ce dossier à la racine du dépôt** : `index.html`, les cinq autres pages HTML et le dossier `assets/` (pas le ZIP lui-même).
-3. Dans le dépôt : **Settings → Pages → Build and deployment**.
-4. Choisir **Deploy from a branch**, branche `main`, dossier `/(root)`, puis **Save**.
-5. Attendre la publication ; l’adresse habituelle sera `https://VOTRE-IDENTIFIANT.github.io/sixsigma-isae-supmeca/`.
-6. Pour modifier le site, remplacer les fichiers dans le même dépôt : l’URL reste la même.
-
-## Architecture
-
-- `index.html` : accueil
-- `hypotheses.html` : H0, Ha et règles
-- `choisir-test.html` : guide de choix
-- `p-value.html` : p-value
-- `distributions.html` : lois et calculatrices
-- `niveaux-z.html` : niveaux Z
-- `assets/style.css` : design commun
-- `assets/site.js` : calculs et interactions
-
-## Précautions
-
-Site pédagogique de démonstration. Vérifier la validité des hypothèses et des calculs avant usage décisionnel. Pas de collecte de données, pas de serveur et pas de dépendance externe.
+## Remarques scientifiques
+Le PowerPoint comporte des passages imprécis (p-value et normalité, formulation de la significativité, effets causaux, test de Kruskal-Wallis, confusion possible sur le sens de certains tests). Les fiches avertissent de ces limites et ne valident pas aveuglément ces assertions.
