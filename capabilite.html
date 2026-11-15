@@ -42,15 +42,22 @@
 
 <div class="figpanel">
 <div class="smallcaps">Figure dynamique 2</div>
-<h3>Différence entre Zst et Zlt</h3>
-<p>Cette figure illustre la différence entre la performance à court terme et la performance à long terme. Elle montre simultanément les deux distances normalisées à la limite la plus proche, ainsi qu’une petite série temporelle pour rappeler que la performance long terme intègre davantage de variation.</p>
-<div class="resultline">
-<div class="resultbox"><small>Zst</small><strong id="zstbox">—</strong></div>
-<div class="resultbox"><small>Zlt</small><strong id="zltbox">—</strong></div>
-<div class="resultbox"><small>Sigma Shift = Zst − Zlt</small><strong id="zshiftbox">—</strong></div>
+<h3>Variabilité à court terme et à long terme : observations chronologiques</h3>
+<p>La figure reprend la logique de ton document : <strong>même processus, deux échelles de temps</strong>. Les mesures proches dans le temps présentent une variabilité intra-sous-groupe ; sur une période plus longue, les changements de moyenne des sous-groupes élargissent la dispersion globale. La partie bleutée indique la fenêtre examinée à court terme.</p>
+<div class="inline-grid" style="margin:12px 0">
+ <div class="field"><label for="short-window">Déplacer la fenêtre court terme</label><input type="range" id="short-window" min="1" max="21" step="1" value="10"></div>
+ <div class="resultbox"><small>Sous-groupes sélectionnés</small><strong id="window-label">—</strong></div>
+ <div class="resultbox"><small>Dispersion inter-sous-groupes simulée</small><strong id="between-label">—</strong></div>
 </div>
-<div class="svgwrap"><svg id="zfigure2" role="img" aria-label="Différence dynamique entre Zst et Zlt" viewBox="0 0 900 320"></svg></div>
-<div class="legend"><span class="st">Court terme</span><span class="lt">Long terme</span><span class="spec">Spécification la plus proche</span></div>
+<div class="resultline">
+<div class="resultbox"><small>Zst = distance / σ intra</small><strong id="zstbox">—</strong></div>
+<div class="resultbox"><small>Zlt = distance / s global</small><strong id="zltbox">—</strong></div>
+<div class="resultbox"><small>Écart entre les indices Z</small><strong id="zshiftbox">—</strong></div>
+</div>
+<div id="fig2-warning" class="hint" role="status"></div>
+<div class="svgwrap"><svg id="zfigure2" role="img" aria-label="Série chronologique simulée avec fenêtre court terme et étendue long terme, et courbes de dispersion" viewBox="0 0 1000 460"></svg></div>
+<div class="legend"><span class="st">Court terme : fenêtre sélectionnée</span><span class="lt">Variations entre sous-groupes</span><span class="spec">Étendue long terme</span></div>
+<p class="hint">Simulation illustrative de <strong>24 sous-groupes de 5 mesures</strong>, sans hasard à chaque manipulation. Le graphique de gauche représente les dispersions intra et globale, horizontalement comme dans le support. Le tracé de droite montre les 120 mesures dans leur ordre chronologique. Les flèches verticales représentent les <strong>étendues observées de la simulation</strong> (maximum − minimum), et non 6σ. Les Z sont calculés séparément à partir des écarts-types renseignés, avec la même moyenne μ.</p>
 <div class="note">Le décalage de <strong>1,5 sigma</strong> souvent évoqué en Six Sigma doit être présenté comme une <strong>convention</strong>, pas comme une loi universelle. Si des données réelles court terme et long terme sont disponibles, il est préférable d’estimer directement <strong>Zst</strong> et <strong>Zlt</strong>.</div>
 </div>
 </div>
@@ -110,21 +117,92 @@ function renderFigure1(l,u,m,si,sg){
 }
 
 function renderFigure2(l,u,m,si,sg){
- let W=900,H=320,pad=18; let left={x:20,y:20,w:420,h:280}, right={x:470,y:20,w:410,h:280};
- let zst=nearestZ(l,u,m,si), zlt=nearestZ(l,u,m,sg), shift=zst-zlt; $('zstbox').textContent=fmt(zst,3); $('zltbox').textContent=fmt(zlt,3); $('zshiftbox').textContent=fmt(shift,3);
- let side=(u!==null)?'upper':'lower', spec=(u!==null)?u:l; if(spec===null){$('zfigure2').innerHTML='';return;}
- let spread=Math.max(4*si,4*sg,Math.abs(spec-m)+2*sg), lo=Math.min(m-4.4*sg,spec-2.5*sg), hi=Math.max(m+4.4*sg,spec+2.5*sg);
- let X1=x=>left.x+28+(x-lo)/(hi-lo)*(left.w-55), ymax=Math.max(dens(m,m,si),dens(m,m,sg))*1.14, Y1=y=>left.y+left.h-28-y/ymax*(left.h-45);
- let curve=(sd,color)=>{let pts=[]; for(let i=0;i<=260;i++){let x=lo+(hi-lo)*i/260; pts.push(`${X1(x).toFixed(2)},${Y1(dens(x,m,sd)).toFixed(2)}`);} return `<polyline points="${pts.join(' ')}" fill="none" stroke="${color}" stroke-width="3.4"/>`;};
- let xSpec=X1(spec), xMean=X1(m); let ySt=Y1(dens(m,m,si)*.70), yLt=Y1(dens(m,m,sg)*.42);
- let specLabel=side==='upper'?'USL':'LSL';
- let leftSvg=`<rect x="${left.x}" y="${left.y}" width="${left.w}" height="${left.h}" rx="12" fill="#fbfdff" stroke="#d6e3ec"/><line x1="${left.x+28}" y1="${left.y+left.h-28}" x2="${left.x+left.w-12}" y2="${left.y+left.h-28}" stroke="#7e90a0"/>${curve(sg,'#c9802b')}${curve(si,'#1f7ea7')}<line x1="${xSpec}" x2="${xSpec}" y1="${left.y+18}" y2="${left.y+left.h-28}" stroke="#b74b4b" stroke-width="2.2" stroke-dasharray="7 5"/><line x1="${xMean}" x2="${xMean}" y1="${left.y+18}" y2="${left.y+left.h-28}" stroke="#667a8b" stroke-dasharray="4 4"/><defs><marker id="arr2a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#1f7ea7"/></marker><marker id="arr2b" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#c9802b"/></marker></defs><line x1="${xMean}" x2="${xSpec}" y1="${ySt}" y2="${ySt}" stroke="#1f7ea7" stroke-width="3" marker-end="url(#arr2a)"/><line x1="${xMean}" x2="${xSpec}" y1="${yLt}" y2="${yLt}" stroke="#c9802b" stroke-width="3" marker-end="url(#arr2b)"/><text x="${(xMean+xSpec)/2}" y="${ySt-7}" text-anchor="middle" fill="#1f7ea7" font-size="15" font-weight="700">Zst = ${fmt(zst,2)}</text><text x="${(xMean+xSpec)/2}" y="${yLt+18}" text-anchor="middle" fill="#c9802b" font-size="15" font-weight="700">Zlt = ${fmt(zlt,2)}</text><text x="${xSpec}" y="${left.y+14}" text-anchor="middle" fill="#b74b4b" font-size="14" font-weight="700">${specLabel}</text><text x="${left.x+16}" y="${left.y+20}" fill="#486578" font-size="14">Distances à la spécification</text>`;
-
- let rx=right.x, ry=right.y, rw=right.w, rh=right.h; let base=ry+rh-38, top=ry+24; let pts=[]; const n=24; for(let i=0;i<n;i++){let t=i/(n-1); let xv=rx+36+t*(rw-56); let wave=0.32*Math.sin(i*1.05)+0.18*Math.sin(i*2.3+.8); let trend=0.15*Math.sin(i*.3); let drift=(sg-si)/Math.max(sg,.0001)*18; let yv=base-(46+drift+wave*56+trend*24); pts.push([xv,yv]); }
- let poly=pts.map(p=>`${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' '); let shortStart=7, shortEnd=12, sx=pts[shortStart][0]-12, sw=pts[shortEnd][0]-pts[shortStart][0]+24; let sparkPts=pts.map(([x,y])=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.2" fill="#5d6d7b"/>`).join(''); let lines=pts.slice(0,-1).map((p,i)=>`<line x1="${p[0].toFixed(1)}" y1="${p[1].toFixed(1)}" x2="${pts[i+1][0].toFixed(1)}" y2="${pts[i+1][1].toFixed(1)}" stroke="#657582" stroke-width="1.6"/>`).join('');
- let rightSvg=`<rect x="${rx}" y="${ry}" width="${rw}" height="${rh}" rx="12" fill="#fbfdff" stroke="#d6e3ec"/><rect x="${sx}" y="${top+20}" width="${sw}" height="${base-top-12}" fill="#dbeef9" opacity="0.7" rx="8"/><line x1="${rx+34}" y1="${base}" x2="${rx+rw-18}" y2="${base}" stroke="#7e90a0"/>${lines}${sparkPts}<text x="${sx+sw/2}" y="${top+16}" text-anchor="middle" fill="#1f7ea7" font-size="15" font-weight="700">Short term</text><text x="${rx+rw/2}" y="${base+25}" text-anchor="middle" fill="#516979" font-size="15">Long term</text><line x1="${rx+20}" y1="${top+24}" x2="${rx+20}" y2="${base}" stroke="#7e90a0"/><line x1="${rx+16}" y1="${top+24}" x2="${rx+24}" y2="${top+24}" stroke="#7e90a0"/><line x1="${rx+16}" y1="${base}" x2="${rx+24}" y2="${base}" stroke="#7e90a0"/><text x="${rx+6}" y="${(top+base)/2}" transform="rotate(-90 ${rx+6},${(top+base)/2})" fill="#546c7d" font-size="14">Variation</text><text x="${rx+40}" y="${top+20}" fill="#4c6879" font-size="14">Illustration temporelle</text>`;
- let shiftText=`<text x="${W/2}" y="${H-8}" text-anchor="middle" fill="#38576c" font-size="15" font-weight="700">Sigma Shift = Zst − Zlt = ${fmt(shift,3)}</text>`;
- $('zfigure2').innerHTML=`<rect x="0" y="0" width="${W}" height="${H}" fill="#fff"/>${leftSvg}${rightSvg}${shiftText}`;
+  // Modèle hiérarchique pédagogique : X_gj = μ + B_g + E_gj.
+  // σ_intra^2 + σ_inter^2 = s_global^2, si s_global >= σ_intra.
+  // Les jeux de valeurs sont déterministes et normalisés (pas de bruit recalculé au rafraîchissement).
+  const G=24,K=5;
+  const globalCompatible=sg>=si;
+  const between=Math.sqrt(Math.max(0,sg*sg-si*si));
+  const rawMeans=Array.from({length:G},(_,g)=>{
+    const t=g/(G-1);
+    return 0.52*Math.sin(g*0.67-0.7)+0.30*Math.sin(g*1.73)+0.58*(t-0.5);
+  });
+  const meanOf=a=>a.reduce((q,v)=>q+v,0)/a.length;
+  const normPop=a=>{const ma=meanOf(a);const st=Math.sqrt(meanOf(a.map(v=>(v-ma)**2)))||1;return a.map(v=>(v-ma)/st)};
+  const centers=normPop(rawMeans).map(v=>m+between*v);
+  const data=[];
+  const pat=[-1.7,-0.45,0.35,1.20,0.60];
+  for(let g=0;g<G;g++){
+    // Variations internes différentes à chaque groupe, mais résidus centrés et variances contrôlées.
+    let e=pat.map((_,j)=>Math.sin((g+1)*0.83+(j+1)*1.61)+0.31*Math.cos((g+2)*0.61*(j+1)));
+    e=normPop(e);
+    for(let j=0;j<K;j++)data.push({g,v:centers[g]+si*e[j]});
+  }
+  const first=Math.max(0,Math.min(20,Number($('short-window').value)-1));
+  const select=data.filter(d=>d.g>=first&&d.g<first+4);
+  const vals=data.map(d=>d.v),loc=select.map(d=>d.v);
+  const minAll=Math.min(...vals),maxAll=Math.max(...vals),minLoc=Math.min(...loc),maxLoc=Math.max(...loc);
+  const zst=nearestZ(l,u,m,si),zlt=nearestZ(l,u,m,sg),delta=zst-zlt;
+  $('window-label').textContent=`${first+1} à ${first+4} / ${G}`;
+  $('between-label').textContent=fmt(between,3);
+  $('zstbox').textContent=fmt(zst,3);
+  $('zltbox').textContent=fmt(zlt,3);
+  $('zshiftbox').textContent=fmt(delta,3);
+  $('fig2-warning').textContent=globalCompatible?'La variabilité globale incorpore la variabilité intra et les déplacements entre sous-groupes.':'Attention : s global < σ intra. Impossible d’obtenir cette décomposition par addition de variances. La simulation utilise ici une dispersion inter-sous-groupes nulle ; les deux Z restent calculés à partir des valeurs saisies.';
+  const W=1000,H=460, left=235, plotL=295, plotR=958,top=56,base=374;
+  const span=Math.max(maxAll-minAll,6*sg,6*si,1e-8);
+  const low=Math.min(minAll,m-3.4*sg,m-3.4*si)-.07*span;
+  const high=Math.max(maxAll,m+3.4*sg,m+3.4*si)+.07*span;
+  const y=v=>base-(v-low)/(high-low)*(base-top);
+  const x=i=>plotL+((i+.5)/data.length)*(plotR-plotL);
+  const leftX=218, maxDen=1/(Math.min(si,sg)*Math.sqrt(2*Math.PI));
+  function densityPath(sd,stroke,dash){
+    let pts=Array.from({length:240},(_,i)=>{
+      const v=low+(high-low)*i/239;
+      const d=dens(v,m,sd);
+      return `${(leftX-168*d/maxDen).toFixed(1)},${y(v).toFixed(1)}`;
+    }).join(' ');
+    return `<polyline points="${pts}" fill="none" stroke="${stroke}" stroke-width="3" ${dash?'stroke-dasharray="5 5"':''}/>`;
+  }
+  const shortX1=x(first*K)-5,shortX2=x((first+4)*K-1)+5;
+  const series=data.map((d,i)=>`${x(i).toFixed(2)},${y(d.v).toFixed(2)}`).join(' ');
+  const groupLines=Array.from({length:G-1},(_,g)=>{let xx=plotL+(g+1)/G*(plotR-plotL);return `<line x1="${xx}" y1="${top}" x2="${xx}" y2="${base}" stroke="#e3edf4" stroke-width="0.9"/>`;}).join('');
+  const groupMeans=centers.map((v,g)=>`${(plotL+(g+.5)/G*(plotR-plotL)).toFixed(2)},${y(v).toFixed(2)}`).join(' ');
+  const marks=data.map((d,i)=>`<circle cx="${x(i).toFixed(2)}" cy="${y(d.v).toFixed(2)}" r="2.15" fill="${d.g>=first&&d.g<first+4?'#1c7da4':'#4b6375'}"/>`).join('');
+  const arrow=(xx,y0,y1,color,label,leftSide)=>{
+    const yt=Math.min(y0,y1),yb=Math.max(y0,y1);
+    return `<line x1="${xx}" y1="${yt}" x2="${xx}" y2="${yb}" stroke="${color}" stroke-width="2.5"/>
+    <path d="M ${xx-5} ${yt+9} L ${xx} ${yt} L ${xx+5} ${yt+9} M ${xx-5} ${yb-9} L ${xx} ${yb} L ${xx+5} ${yb-9}" fill="none" stroke="${color}" stroke-width="2.2"/>
+    <text x="${xx+(leftSide?-10:12)}" y="${(yt+yb)/2}" transform="rotate(-90 ${xx+(leftSide?-10:12)} ${(yt+yb)/2})" text-anchor="middle" font-size="14" font-weight="700" fill="${color}">${label}</text>`;
+  };
+  let html=`<rect x="0" y="0" width="${W}" height="${H}" fill="#fbfdff"/>
+   <text x="40" y="24" fill="#253f54" font-size="17" font-weight="700">Dispersion intra / globale</text>
+   <text x="${plotL}" y="24" fill="#253f54" font-size="17" font-weight="700">Mesures successives dans le temps (24 × 5)</text>
+   <line x1="${leftX}" y1="${top}" x2="${leftX}" y2="${base}" stroke="#8da2b0"/>
+   ${densityPath(sg,'#c9802b',false)}${densityPath(si,'#1f7ea7',true)}
+   <text x="42" y="${top+18}" fill="#c9802b" font-size="14" font-weight="700">Global (s)</text>
+   <text x="42" y="${top+38}" fill="#1f7ea7" font-size="14" font-weight="700">Intra (σ)</text>
+   <line x1="${plotL}" y1="${base}" x2="${plotR}" y2="${base}" stroke="#738b9c" stroke-width="1.7"/>
+   ${groupLines}
+   <rect x="${shortX1}" y="${top}" width="${shortX2-shortX1}" height="${base-top}" rx="8" fill="#d8ecf8" fill-opacity="0.72"/>
+   <polyline points="${groupMeans}" fill="none" stroke="#c9802b" stroke-width="2" stroke-dasharray="7 5"/>
+   <polyline points="${series}" fill="none" stroke="#3c647e" stroke-width="1.75"/>
+   ${marks}
+   <line x1="${plotL}" y1="${y(m)}" x2="${plotR}" y2="${y(m)}" stroke="#8498a6" stroke-dasharray="3 5"/>
+   <text x="${plotR-5}" y="${y(m)-8}" text-anchor="end" font-size="12" fill="#657889">μ = ${fmt(m,2)}</text>
+   <line x1="${plotL}" y1="${y(minAll)}" x2="${plotR}" y2="${y(minAll)}" stroke="#cb8d60" stroke-dasharray="3 4" opacity=".6"/>
+   <line x1="${plotL}" y1="${y(maxAll)}" x2="${plotR}" y2="${y(maxAll)}" stroke="#cb8d60" stroke-dasharray="3 4" opacity=".6"/>
+   ${arrow(270,y(minAll),y(maxAll),'#c9802b','Étendue long terme',true)}
+   ${arrow(Math.max(plotL+16,shortX1+18),y(minLoc),y(maxLoc),'#1f7ea7','Court terme',false)}
+   <line x1="${shortX1}" y1="${top+20}" x2="${shortX2}" y2="${top+20}" stroke="#1f7ea7" stroke-width="3"/>
+   <path d="M ${shortX1+8} ${top+15} L ${shortX1} ${top+20} L ${shortX1+8} ${top+25} M ${shortX2-8} ${top+15} L ${shortX2} ${top+20} L ${shortX2-8} ${top+25}" stroke="#1f7ea7" fill="none" stroke-width="2"/>
+   <text x="${(shortX1+shortX2)/2}" y="${top+12}" text-anchor="middle" fill="#196e95" font-size="14" font-weight="700">Court terme</text>
+   <line x1="${plotL}" y1="${base+31}" x2="${plotR}" y2="${base+31}" stroke="#c9802b" stroke-width="2"/>
+   <path d="M ${plotL+8} ${base+26} L ${plotL} ${base+31} L ${plotL+8} ${base+36} M ${plotR-8} ${base+26} L ${plotR} ${base+31} L ${plotR-8} ${base+36}" fill="none" stroke="#c9802b" stroke-width="2"/>
+   <text x="${(plotL+plotR)/2}" y="${base+52}" fill="#9b5d23" text-anchor="middle" font-size="16" font-weight="700">Long terme : 120 mesures</text>
+   <text x="${plotL+4}" y="${base+13}" fill="#627788" font-size="12">1</text><text x="${plotR-4}" y="${base+13}" fill="#627788" text-anchor="end" font-size="12">120</text>`;
+  $('zfigure2').setAttribute('viewBox',`0 0 ${W} ${H}`);
+  $('zfigure2').innerHTML=html;
 }
 
 function render(){
@@ -145,7 +223,8 @@ function render(){
    top.addEventListener('input',()=>{main.value=top.value;render();});
  });
  $('zbasis').addEventListener('input',render);
- $('reset').addEventListener('click',()=>{Object.entries(defaults).forEach(([k,v])=>$(k).value=v);pairedFields.forEach(id=>$('z-'+id).value=$(id).value);render()});
+ $('short-window').addEventListener('input',render);
+ $('reset').addEventListener('click',()=>{$('short-window').value='10';Object.entries(defaults).forEach(([k,v])=>$(k).value=v);pairedFields.forEach(id=>$('z-'+id).value=$(id).value);render()});
  render();
 })();
 </script></body></html>
