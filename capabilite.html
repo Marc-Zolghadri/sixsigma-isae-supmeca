@@ -23,6 +23,8 @@
 
 <section id="z" class="section"><div class="eyebrow">05 · Niveaux Sigma</div><h2>Niveaux Z, Zst, Zlt et Sigma Shift</h2><p>Le <strong>niveau Z</strong> représente une distance à la spécification en unités d’écart-type. Avec une seule limite supérieure, on peut écrire :</p><div class="formula">Z = (USL − μ) / σ</div><p>On peut également définir un niveau Z <strong>équivalent</strong> à partir d’un taux de non-conformité, afin d’utiliser une même échelle de comparaison entre différents contextes de données. Dans cette page, on distingue explicitement :</p><ul><li><strong>Zst</strong> : niveau Z à court terme, basé sur σ<sub>intra</sub>.</li><li><strong>Zlt</strong> : niveau Z à long terme, basé sur s<sub>global</sub>.</li><li><strong>Sigma Shift</strong> : différence entre les deux, soit <span class="mono">Zst − Zlt</span>.</li></ul>
 
+
+<div class="figpanel" id="parametres-z"><div class="smallcaps">Paramètres des deux figures</div><h3>Renseigner les valeurs du processus</h3><p class="hint">Modifiez les valeurs ci-dessous : les deux figures et le calculateur de la section 08 seront mis à jour automatiquement. Laissez une spécification vide pour un cas unilatéral.</p><div class="controls"><div class="field"><label for="z-lsl">LSI (facultative)</label><input id="z-lsl" type="number" step="any" value="9"></div><div class="field"><label for="z-usl">LSS (facultative)</label><input id="z-usl" type="number" step="any" value="11"></div><div class="field"><label for="z-mean">Moyenne μ</label><input id="z-mean" type="number" step="any" value="10"></div><div class="field"><label for="z-intra">σ intra — court terme</label><input id="z-intra" type="number" step="any" value="0.30" min="0.0000001"></div><div class="field"><label for="z-global">s global — long terme</label><input id="z-global" type="number" step="any" value="0.45" min="0.0000001"></div></div><p class="error" id="z-input-error" role="alert" aria-live="polite"></p></div>
 <div class="zfiggrid">
 <div class="figpanel">
 <div class="smallcaps">Figure dynamique 1</div>
@@ -128,6 +130,7 @@ function renderFigure2(l,u,m,si,sg){
 function render(){
  let l=num('lsl'),u=num('usl'),m=num('mean'),si=num('intra'),sg=num('global'); let valid=[m,si,sg].every(v=>v!==null&&Number.isFinite(v))&&si>0&&sg>0&&(l!==null||u!==null)&&[l,u].every(v=>v===null||Number.isFinite(v))&&(l===null||u===null||l<u);
  $('error').textContent=valid?'':'Données insuffisantes ou incorrectes : saisir une limite au minimum, LSI < LSS si les deux existent, et des écarts-types strictement positifs.';
+ $('z-input-error').textContent=$('error').textContent;
  if(!valid){['cpout','cpkout','ppout','ppkout','zshort','zlong','pshort','plong','ppmshort','ppmlong','zfig1value','zfig1ppm','zstbox','zltbox','zshiftbox'].forEach(id=>$(id).textContent='—');$('plot').innerHTML='';$('zfigure1').innerHTML='';$('zfigure2').innerHTML='';$('interpretation').textContent='Corriger les valeurs pour afficher les résultats.';return;}
  const zShort=nearestZ(l,u,m,si), zLong=nearestZ(l,u,m,sg); const pShort=probNC(l,u,m,si), pLong=probNC(l,u,m,sg); const cp=l!==null&&u!==null?(u-l)/(6*si):NaN, pp=l!==null&&u!==null?(u-l)/(6*sg):NaN;
  Object.entries({cpout:cp,cpkout:zShort/3,ppout:pp,ppkout:zLong/3,zshort:zShort,zlong:zLong}).forEach(([k,v])=>$(k).textContent=fmt(v));
@@ -135,6 +138,14 @@ function render(){
  $('interpretation').textContent=(l!==null&&u!==null?('Cp '+(Math.abs(cp-zShort/3)<1e-9?'= Cpk : processus centré entre les spécifications.':'> Cpk : la moyenne est décentrée par rapport au milieu des spécifications.')):'Cas à une seule spécification : Cp et Pp ne sont pas définis ; les valeurs affichées dans les cases Cpk / Ppk sont les indices unilatéraux.')+' Les PPM sont des prédictions sous hypothèse normale, non des défauts observés.';
  renderMainPlot(l,u,m,si,sg); renderFigure1(l,u,m,si,sg); renderFigure2(l,u,m,si,sg);
  }
- ['lsl','usl','mean','intra','global','zbasis'].forEach(id=>$(id).addEventListener('input',render)); $('reset').addEventListener('click',()=>{Object.entries(defaults).forEach(([k,v])=>$(k).value=v);render()}); render();
+ const pairedFields=['lsl','usl','mean','intra','global'];
+ pairedFields.forEach(id=>{
+   const main=$(id), top=$('z-'+id);
+   main.addEventListener('input',()=>{top.value=main.value;render();});
+   top.addEventListener('input',()=>{main.value=top.value;render();});
+ });
+ $('zbasis').addEventListener('input',render);
+ $('reset').addEventListener('click',()=>{Object.entries(defaults).forEach(([k,v])=>$(k).value=v);pairedFields.forEach(id=>$('z-'+id).value=$(id).value);render()});
+ render();
 })();
 </script></body></html>
