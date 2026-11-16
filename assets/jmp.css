@@ -13,3 +13,8 @@
 .jmp-gif-disclaimer{font-size:.84rem;color:#587386}
 .jmp-gif-empty{border-left:4px solid #9eacba;background:#f4f7fa;padding:.8rem 1rem;border-radius:5px;color:#43576a}
 @media(prefers-reduced-motion:reduce){.jmp-gif-card img{animation:none}}
+
+/* Jeux de données des exercices JMP */
+.jmp-data-section{padding:17px 20px;margin:20px 0;border:1px solid #c8dced;background:#f0f7fc;border-radius:12px}
+.jmp-data-section h2{margin-top:0}.jmp-data-download{display:inline-block;margin:7px 0;padding:11px 15px;background:#145d87;color:#fff!important;border-radius:7px;text-decoration:none;font-weight:700;overflow-wrap:anywhere}
+.jmp-data-download:hover{background:#0e4568}.jmp-data-hint{font-size:.86rem;color:#4e6b80}.jmp-library-link{margin-top:12px}
