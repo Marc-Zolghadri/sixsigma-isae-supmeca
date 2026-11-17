@@ -1,9 +1,84 @@
 <!DOCTYPE html>
-
-<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Procédures JMP pour la pédagogie Six Sigma ISAE-Supméca" name="description"/><title>Étude Gage R&amp;R croisée (données continues) | JMP · ISAE-Supméca</title><link href="../assets/jmp.css" rel="stylesheet"/><script defer="" src="../assets/jmp.js"></script></head><body class="jmp"><header class="jmp-header"><div class="jmp-brand">SixSigma in ISAE-Supmeca<small>by MarcZolghadri · Guide pratique JMP</small></div><nav><a href="../index.html">Accueil</a><a href="../hypotheses.html">Hypothèses</a><a href="../choisir-test.html">Choisir un test</a><a href="../p-value.html">p-value</a><a href="../distributions.html">Lois</a><a href="../niveaux-z.html">Zst &amp; Zlt</a><a href="../jmp/index.html">JMP — Procédures</a></nav></header><main class="jmp-wrap"><a class="back" href="index.html">← Toutes les procédures</a><article class="jmp-panel paper"><div class="eyeb">Procédure 04 · Système de mesure</div><h1>Étude Gage R&amp;R croisée (données continues)</h1><p class="meta">Source : diapositives 6–8 du PowerPoint fourni</p><h2>Procédure pas à pas</h2><ol class="steps"><li>Préparer une colonne pour la pièce, une pour l’opérateur et une pour la mesure.</li><li>Ouvrir Analyse → Qualité et procédés → Analyse des systèmes de mesure.</li><li>Choisir Gage R&amp;R comme méthode MSA.</li><li>Choisir le modèle croisé lorsque tous les opérateurs mesurent toutes les pièces.</li><li>Affecter Measurement à Y, Part number à ID pièce, Appraiser à X / Groupement.</li><li>Vérifier que la mesure est continue et que l’identifiant de pièce est catégoriel.</li><li>Paramétrer le multiplicateur sigma et, si nécessaire, la largeur de tolérance.</li><li>Valider, puis ouvrir les options du rapport avec le triangle rouge pour afficher l’étude Gage R&amp;R et les composantes de variance.</li></ol><section aria-label="Téléchargement des données de la procédure" class="jmp-data-section"><h2>Télécharger les données pour JMP</h2><p>Ouvrir ce fichier dans JMP, puis suivre les étapes de la procédure et les animations associées.</p><a class="jmp-data-download" download="GR&amp;R-Crossed.XLS" href="../data/GR%26R-Crossed.XLS">↓ Télécharger GR&amp;R-Crossed.XLS</a><p class="jmp-data-hint">Format .XLS ; fichier d’exercice original, sans modification.</p></section><h2>Jeu de données / résultat</h2><p>Fichier cité : GR&amp;R Crossed.xls</p><div class="note"><strong>Point de vigilance :</strong> La valeur 5,15 du multiplicateur sigma dans le support correspond à une convention ; ne pas la confondre avec la valeur par défaut de 6.</div><section aria-label="Démonstrations animées JMP" class="jmp-gif-section"><h2>Démonstrations animées dans JMP</h2><p>Animations extraites du PowerPoint « Lean Six Sigma avec JMP 003 ». Elles complètent les étapes numérotées ci-dessus.</p><figure class="jmp-gif-card"><figcaption><strong>Lancer une étude Gage R&amp;R</strong><span class="jmp-slide">Animation du support · diapositive 7</span></figcaption><img alt="Animation JMP : Lancer une étude Gage R&amp;R" decoding="async" loading="lazy" src="../assets/gifs/image8.gif"/></figure><figure class="jmp-gif-card"><figcaption><strong>Examiner les résultats de l’analyse</strong><span class="jmp-slide">Animation du support · diapositive 11</span></figcaption><img alt="Animation JMP : Examiner les résultats de l’analyse" decoding="async" loading="lazy" src="../assets/gifs/image15.gif"/></figure></section><section aria-label="Commentaires de l’enseignant" class="jmp-comments" id="commentaires-enseignant">
+<html lang="fr"><head><meta charset="utf-8"><meta content="width=device-width,initial-scale=1" name="viewport"><meta content="Procédures JMP pour la pédagogie Six Sigma ISAE-Supméca" name="description"><title>Étude Gage R&amp;R croisée (données continues) | JMP · ISAE-Supméca</title><link href="../assets/jmp.css" rel="stylesheet"><script defer="" src="../assets/jmp.js"></script></head><body class="jmp"><header class="jmp-header"><div class="jmp-brand">SixSigma in ISAE-Supmeca<small>by MarcZolghadri · Guide pratique JMP</small></div><nav><a href="../index.html">Accueil</a><a href="../hypotheses.html">Hypothèses</a><a href="../choisir-test.html">Choisir un test</a><a href="../p-value.html">p-value</a><a href="../distributions.html">Lois</a><a href="../niveaux-z.html">Zst &amp; Zlt</a><a href="../jmp/index.html">JMP — Procédures</a></nav></header><main class="jmp-wrap"><a class="back" href="index.html">← Toutes les procédures</a><article class="jmp-panel paper"><div class="eyeb">Procédure 04 · Système de mesure</div><h1>Étude Gage R&amp;R croisée (données continues)</h1><p class="meta">Source : diapositives 6–8 du PowerPoint fourni</p><h2>Procédure pas à pas</h2><ol class="steps"><li>Préparer une colonne pour la pièce, une pour l’opérateur et une pour la mesure.</li><li>Ouvrir Analyse → Qualité et procédés → Analyse des systèmes de mesure.</li><li>Choisir Gage R&amp;R comme méthode MSA.</li><li>Choisir le modèle croisé lorsque tous les opérateurs mesurent toutes les pièces.</li><li>Affecter Measurement à Y, Part number à ID pièce, Appraiser à X / Groupement.</li><li>Vérifier que la mesure est continue et que l’identifiant de pièce est catégoriel.</li><li>Paramétrer le multiplicateur sigma et, si nécessaire, la largeur de tolérance.</li><li>Valider, puis ouvrir les options du rapport avec le triangle rouge pour afficher l’étude Gage R&amp;R et les composantes de variance.</li></ol><section aria-label="Téléchargement des données de la procédure" class="jmp-data-section"><h2>Télécharger les données pour JMP</h2><p>Ouvrir ce fichier dans JMP, puis suivre les étapes de la procédure et les animations associées.</p><a class="jmp-data-download" download="GR&amp;R-Crossed.XLS" href="../data/GR%26R-Crossed.XLS">↓ Télécharger GR&amp;R-Crossed.XLS</a><p class="jmp-data-hint">Format .XLS ; fichier d’exercice original, sans modification.</p></section><h2>Jeu de données / résultat</h2><p>Fichier cité : GR&amp;R Crossed.xls</p><div class="note"><strong>Point de vigilance :</strong> La valeur 5,15 du multiplicateur sigma dans le support correspond à une convention ; ne pas la confondre avec la valeur par défaut de 6.</div><section aria-label="Démonstrations animées JMP" class="jmp-gif-section"><h2>Démonstrations animées dans JMP</h2><p>Animations extraites du PowerPoint « Lean Six Sigma avec JMP 003 ». Elles complètent les étapes numérotées ci-dessus.</p><figure class="jmp-gif-card"><figcaption><strong>Lancer une étude Gage R&amp;R</strong><span class="jmp-slide">Animation du support · diapositive 7</span></figcaption><img alt="Animation JMP : Lancer une étude Gage R&amp;R" decoding="async" loading="lazy" src="../assets/gifs/image8.gif"></figure><figure class="jmp-gif-card"><figcaption><strong>Examiner les résultats de l’analyse</strong><span class="jmp-slide">Animation du support · diapositive 11</span></figcaption><img alt="Animation JMP : Examiner les résultats de l’analyse" decoding="async" loading="lazy" src="../assets/gifs/image15.gif"></figure></section><section aria-label="Commentaires de l’enseignant" class="jmp-comments" id="commentaires-enseignant">
 <h2>Commentaires de l’enseignant</h2>
-<div class="jmp-comments-public" data-published-comment="" style="white-space: pre-wrap;"><p class="jmp-comments-empty">Aucun commentaire publié pour cette fiche.</p></div>
-<details class="jmp-comments-editor"><summary>Rédiger ou modifier un commentaire</summary>
+<div class="jmp-comments-public" data-published-comment="La répétabilité : La répétabilité est la variation due à l'instrument de mesure. Il s'agit de la variation observée lorsque le même opérateur mesure la même pièce de nombreuses fois, à l'aide de la même instrumentation, dans les mêmes conditions.
+La reproductibilité : La reproductibilité est la variation due au système de mesure. Il s'agit de la variation observée lorsque différents opérateurs mesurent la même pièce de nombreuses fois, à l'aide de la même instrumentation, dans les mêmes conditions.
+Une norme courante pour les études GR&amp;R continues consiste à mesurer 10 pièces par 3 opérateurs, chaque opérateur mesurant chaque pièce 3 fois, ce qui donne un total de 90 résultats.
+Les études R&amp;R de Gage évaluent la répétabilité et la reproductibilité d’un processus de mesure. Ces évaluations vous aident à étudier la précision d’un système de mesure et à identifier les possibilités d’amélioration. 
+
+
+Exemple : Un projet vise à contrôler l’épaisseur de l’acier issu d’un procédé de laminage.Une étude GR&amp;R pour le dispositif de mesure a été réalisée sur 10 pièces d’acier, à l’aide de trois opérateurs différents.
+
+Préparation des données : Le format habituel exige que les données soient disposées en colonnes : une colonne pour les numéros de pièces, une autre pour les opérateurs (évaluateurs) et une dernière pour les résultats de mesure, comme illustré ci-dessous.
+
+Etapes : 
+1)Analyse -&gt; Qualité et procédés -&gt; Analyse des systèmes de mesure
+2) Choisir la méthode MSA : EMP, Gage R&amp;R ou analyse de système de mesure type 1. Dans notre exemple on va utiliser la méthode Gage R&amp;R
+3) Choisir le type de modèle effet principal, croisé, imbriqué, etc. Comme toutes les pièces ont été mesurées par l’ensemble des opérateurs, on choisit le modèle croisé.
+4) La variation de l’étude («&nbsp;multiplicateur sigma&nbsp;» sur JMP)  peut être définie à 6 sigma, ce qui est la valeur par défaut de JMP, basée sur les limites ±3 sigma.  Dans notre cas, nous allons utiliser une variation de 5.15, qui correspond à une norme industrielle courante utilisée dans les études GR&amp;R, en particulier dans l'industrie automobile.
+	- Mettre les Part number en «&nbsp;Numérique Ordinal&nbsp;»
+	- Y : measurement [Pensez à changer la nature des données en données «&nbsp;Numérique continue&nbsp;»]. 
+	- Standard : s’il y a une valeur vraie
+	- ID pièce : Part number
+	- X, Groupement : Appraiser : Changer 1 en Pierre, 2 en Paul et 3 en Jacques
+	
+	- Cocher «&nbsp;Montrer les paramètres de Metadonnées&nbsp;». 
+5) En cliquant sur valider, JMP affiche des graphes de variabilité.
+6) Pour faire l’étude GR&amp;R complète, aller sur la flèche rouge à coté d’Analyse de variabilité des systèmes de mesure pour afficher les options.
+7) Choisir Etude des systèmes de mesure -&gt; Répétabilité et reproductibilité des systèmes de mesure
+8) Définir l’intervalle de tolérance ou la plage de tolérance pour que l’étude donne le % GR&amp;R en fonction de la tolérance. Dans cet exemple, la tolérance entre les limites de spécification est de 1,0 mm (car la spécification est de ±0,5 mm).
+9) Vous pouvez ajouter aussi des graphiques de GR&amp;R en allant sur Etude des systèmes de mesure   -&gt; Graphique du Gage R&amp;R ( Répétabilité et Reproductibilité)
+10) Aller sur la flèche rouge à coté d’analyse de variabilité des systèmes de mesure pour afficher les options. Sélectionner Composants de la variance pour affiche le tableau d’analyse de la variance. 
+
+
+Ce premier graphique présente les résultats de mesures pour chaque pièce et chaque opérateur. Chaque point représente une mesure individuelle, et les barres montrent la variabilité intra-opérateur pour chaque pièce.
+
+Le graphique présente l’écart-type des mesures pour chaque pièce (Part Number) et chaque opérateur (Appraiser). 
+
+Ce graphique présente les résultats des mesures pour chaque pièce dans l'ordre (1 à 10) afin de déterminer s'il existe des pièces difficiles à mesurer. Dans ce cas, la 10ème pièce présente les valeurs de mesure les plus variables.
+
+Ce graphe permet d’évaluer la reproductibilité en comparant les moyennes de mesure obtenues par les trois opérateurs (Appraisers 1, 2 et 3).
+
+" style="white-space: pre-wrap;"><p>La répétabilité : La répétabilité est la variation due à l'instrument de mesure. Il s'agit de la variation observée lorsque le même opérateur mesure la même pièce de nombreuses fois, à l'aide de la même instrumentation, dans les mêmes conditions.
+La reproductibilité : La reproductibilité est la variation due au système de mesure. Il s'agit de la variation observée lorsque différents opérateurs mesurent la même pièce de nombreuses fois, à l'aide de la même instrumentation, dans les mêmes conditions.
+Une norme courante pour les études GR&amp;R continues consiste à mesurer 10 pièces par 3 opérateurs, chaque opérateur mesurant chaque pièce 3 fois, ce qui donne un total de 90 résultats.
+Les études R&amp;R de Gage évaluent la répétabilité et la reproductibilité d’un processus de mesure. Ces évaluations vous aident à étudier la précision d’un système de mesure et à identifier les possibilités d’amélioration. 
+
+
+Exemple : Un projet vise à contrôler l’épaisseur de l’acier issu d’un procédé de laminage.Une étude GR&amp;R pour le dispositif de mesure a été réalisée sur 10 pièces d’acier, à l’aide de trois opérateurs différents.
+
+Préparation des données : Le format habituel exige que les données soient disposées en colonnes : une colonne pour les numéros de pièces, une autre pour les opérateurs (évaluateurs) et une dernière pour les résultats de mesure, comme illustré ci-dessous.
+
+Etapes : 
+1)Analyse -&gt; Qualité et procédés -&gt; Analyse des systèmes de mesure
+2) Choisir la méthode MSA : EMP, Gage R&amp;R ou analyse de système de mesure type 1. Dans notre exemple on va utiliser la méthode Gage R&amp;R
+3) Choisir le type de modèle effet principal, croisé, imbriqué, etc. Comme toutes les pièces ont été mesurées par l’ensemble des opérateurs, on choisit le modèle croisé.
+4) La variation de l’étude («&nbsp;multiplicateur sigma&nbsp;» sur JMP)  peut être définie à 6 sigma, ce qui est la valeur par défaut de JMP, basée sur les limites ±3 sigma.  Dans notre cas, nous allons utiliser une variation de 5.15, qui correspond à une norme industrielle courante utilisée dans les études GR&amp;R, en particulier dans l'industrie automobile.
+	- Mettre les Part number en «&nbsp;Numérique Ordinal&nbsp;»
+	- Y : measurement [Pensez à changer la nature des données en données «&nbsp;Numérique continue&nbsp;»]. 
+	- Standard : s’il y a une valeur vraie
+	- ID pièce : Part number
+	- X, Groupement : Appraiser : Changer 1 en Pierre, 2 en Paul et 3 en Jacques
+	
+	- Cocher «&nbsp;Montrer les paramètres de Metadonnées&nbsp;». 
+5) En cliquant sur valider, JMP affiche des graphes de variabilité.
+6) Pour faire l’étude GR&amp;R complète, aller sur la flèche rouge à coté d’Analyse de variabilité des systèmes de mesure pour afficher les options.
+7) Choisir Etude des systèmes de mesure -&gt; Répétabilité et reproductibilité des systèmes de mesure
+8) Définir l’intervalle de tolérance ou la plage de tolérance pour que l’étude donne le % GR&amp;R en fonction de la tolérance. Dans cet exemple, la tolérance entre les limites de spécification est de 1,0 mm (car la spécification est de ±0,5 mm).
+9) Vous pouvez ajouter aussi des graphiques de GR&amp;R en allant sur Etude des systèmes de mesure   -&gt; Graphique du Gage R&amp;R ( Répétabilité et Reproductibilité)
+10) Aller sur la flèche rouge à coté d’analyse de variabilité des systèmes de mesure pour afficher les options. Sélectionner Composants de la variance pour affiche le tableau d’analyse de la variance. 
+
+
+Ce premier graphique présente les résultats de mesures pour chaque pièce et chaque opérateur. Chaque point représente une mesure individuelle, et les barres montrent la variabilité intra-opérateur pour chaque pièce.
+
+Le graphique présente l’écart-type des mesures pour chaque pièce (Part Number) et chaque opérateur (Appraiser). 
+
+Ce graphique présente les résultats des mesures pour chaque pièce dans l'ordre (1 à 10) afin de déterminer s'il existe des pièces difficiles à mesurer. Dans ce cas, la 10ème pièce présente les valeurs de mesure les plus variables.
+
+Ce graphe permet d’évaluer la reproductibilité en comparant les moyennes de mesure obtenues par les trois opérateurs (Appraisers 1, 2 et 3).
+
+</p></div>
+<details class="jmp-comments-editor" open=""><summary>Rédiger ou modifier un commentaire</summary>
 <p class="jmp-comments-explainer">Les modifications saisies ici sont conservées dans ce navigateur uniquement. Pour les rendre visibles aux étudiants, télécharge la fiche HTML modifiée puis remplace le fichier correspondant dans le dossier <code>jmp/</code> de GitHub.</p>
 <label for="teacher-comment">Texte du commentaire</label>
 <textarea class="jmp-comments-input" id="teacher-comment" placeholder="Saisir ici les observations, précisions ou consignes destinées aux étudiants…" rows="7"></textarea>
